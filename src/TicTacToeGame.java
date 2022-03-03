@@ -3,11 +3,11 @@ import java.util.*;
 
 public class TicTacToeGame {
 
-    static String[] board;
-    static String turn;
+    private String[] board = new String[9];
+    private String turn;
 
-    // go through all combinations o find winner
-    static String checkWinner()
+    // go through all combinations to find winner
+    public String checkWinner()
     {
         for (int a = 0; a < 8; a++) {
             String line = null;
@@ -65,8 +65,12 @@ public class TicTacToeGame {
     }
 
     // To print out the board.
-    static void originalBoard()
+    public void originalBoard()
     {
+        for (int a = 0; a < 9; a++) {
+            board[a] = String.valueOf(a + 1);
+        }
+
         System.out.println("|---|---|---|");
         System.out.println("| " + board[0] + " | " + board[1] + " | " + board[2] + " |");
         System.out.println("|-----------|");
@@ -77,7 +81,7 @@ public class TicTacToeGame {
     }
 
     // To print out the board.
-    static void playBoard()
+    public void playBoard()
     {
         System.out.println("|---|---|---|   |---|---|---|");
         System.out.println("| " + "1" + " | " + "2" + " | " + "3" + " |" + "   " + "| " + board[0] + " | " + board[1] + " | " + board[2] + " |");
@@ -88,67 +92,73 @@ public class TicTacToeGame {
         System.out.println("|---|---|---|   |---|---|---|");
     }
 
-    public static void main(String[] args)
-    {
-        Scanner in = new Scanner(System.in);
-        board = new String[9];
-        turn = "X";
+    public void setTurn(String turn){
+        this.turn = turn;
+    }
 
-        String winner = null;
+    public String getTurn(){
+        return turn;
+    }
 
-        for (int a = 0; a < 9; a++) {
-            board[a] = String.valueOf(a + 1);
-        }
+    //decide turn
+    public String checkTurn(int numInput) {
+        if (board[numInput - 1].equals(String.valueOf(numInput))) {
+            board[numInput - 1] = turn;
 
-        System.out.println("Welcome to 3x3 Tic Tac Toe.");
-        originalBoard();
-
-        System.out.println("X will play first. Enter a slot number to place X in:");
-
-        while (winner == null) {
-            int numInput;
-
-            // check if valid number inputed
-            try {
-                numInput = in.nextInt();
-                if (!(numInput > 0 && numInput <= 9)) {
-                    System.out.println("Invalid input; re-enter slot number:");
-                    continue;
-                }
-            }
-            catch (InputMismatchException e) {
-                System.out.println("Invalid input; re-enter slot number:");
-                continue;
-            }
-
-            // decide turn
-            if (board[numInput - 1].equals(String.valueOf(numInput))) {
-                board[numInput - 1] = turn;
-
-                if (turn.equals("X")) {
-                    turn = "O";
-                }
-                else {
-                    turn = "X";
-                }
-
-                playBoard();
-                winner = checkWinner();
+            if (turn.equals("X")) {
+                setTurn("O");
             }
             else {
-                System.out.println("Slot already taken; re-enter slot number:");
+                setTurn("X");
             }
         }
-
-        // if no winner then draw
-        if (winner.equalsIgnoreCase("draw")) {
-            System.out.println("It's a draw! Thanks for playing.");
-        }
-
-        // message for winner
         else {
-            System.out.println(winner + "has won! Thanks for playing.");
+            System.out.println("Slot already taken; re-enter slot number:");
+            return null;
         }
+        return turn;
+    }
+
+    //board cases manually set for testing
+    public void setBoardCaseZero() {
+        board[0] = "X";
+        board[1] = "X";
+        board[2] = "X";
+    }
+    public void setBoardCaseOne() {
+        board[3] = "X";
+        board[4] = "X";
+        board[5] = "X";
+    }
+    public void setBoardCaseTwo() {
+        board[6] = "X";
+        board[7] = "X";
+        board[8] = "X";
+    }
+    public void setBoardCaseThree() {
+        board[0] = "X";
+        board[3] = "X";
+        board[6] = "X";
+    }
+    public void setBoardCaseFour() {
+        board[1] = "X";
+        board[4] = "X";
+        board[7] = "X";
+    }
+    public void setBoardCaseFive() {
+        board[2] = "X";
+        board[5] = "X";
+        board[8] = "X";
+    }
+    public void setBoardCaseSix() {
+        board[0] = "X";
+        board[4] = "X";
+        board[8] = "X";
+    }
+    public void setBoardCaseSeven() {
+        board[2] = "X";
+        board[4] = "X";
+        board[6] = "X";
     }
 }
 
